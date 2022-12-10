@@ -18,6 +18,9 @@ with open('list.csv') as csv_file:
             line_count += 1
     #print(f'Processed {line_count} lines.')
 
+def wakePc(selection,name,mac):
+    print(str(selection)+" Starting  "+name+" MAC:"+str(mac).strip())
+    send_magic_packet(str(mac).strip(), ip_address='192.168.0.255', port=9)
 
 while True:
     #os.system('cls')
@@ -26,28 +29,29 @@ while True:
     for i, x in enumerate(list_pc):
         print(str(i)+" : "+x)
         #print(x+" "+str(list_pc[x]))
-    print("x  : esci")
+    print("a  : Wake Up All PCs")
+    print("q  : Quit")
     print('- - - - - - - - - - - - - - - - - - ')
 
-    postazione = input('Seleziona una postazione: ')
+    postazione = input('Select a PC: ')
 
-    if(postazione=="x"):
+    if(postazione=="q"):
         exit()
 
-    postazione = int(postazione)
-
-    if(postazione==0):
-        print("Accendi tutte le postazioni...")
+    if(postazione=="a"):
+        print("Wake Up All PCs ...")
         for i, x in enumerate(list_pc):
-            if(i==0):
-                continue
-            print(str(i)+" Starting  "+x+" ...")
-            send_magic_packet(str(list_pc[x]), ip_address='192.168.0.255', port=9)
+            wakePc(i,x,list_pc[x])
+            #print(str(i)+" Starting  "+x+ "MAC:"+str(list_pc[x])+" ...")
+            #send_magic_packet(str(list_pc[x]), ip_address='192.168.0.255', port=9)
 
     else:
+        postazione = int(postazione)
         for i, x in enumerate(list_pc):
             if(postazione==i):
-                print(str(i)+" Starting  "+x+" ...")
-                send_magic_packet(str(list_pc[x]), ip_address='192.168.0.255', port=9)
+                wakePc(i,x,list_pc[x])
+                #print(str(i)+" Starting  "+x+" ...")
+                #send_magic_packet(str(list_pc[x]), ip_address='192.168.0.255', port=9)
 
-    #time.sleep(2)
+
+
