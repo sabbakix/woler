@@ -7,7 +7,7 @@ Install wakeonlan dependency
 
     pip install wakeonlan
 
-Create a list.csv file in the same directory as woler.py and fill each row with the name and the mac address of the pc to wake up.
+Create a **list.csv** file in the same directory as woler.py and fill each row with the name and the mac address of the pc to wake up.
 
 For example:
 
