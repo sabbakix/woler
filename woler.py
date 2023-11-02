@@ -1,5 +1,4 @@
 from wakeonlan import send_magic_packet
-#import os, time
 
 import csv
 
