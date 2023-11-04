@@ -22,7 +22,7 @@ def wakePc(selection,name,mac):
     send_magic_packet(str(mac).strip(), ip_address='192.168.0.255', port=9)
 
 while True:
-    #os.system('cls')
+    # os.system('cls')
     # Print menu
     print('- - - - - - - - - - - - - - - - - - ')
     for i, x in enumerate(list_pc):
@@ -51,6 +51,3 @@ while True:
                 wakePc(i,x,list_pc[x])
                 #print(str(i)+" Starting  "+x+" ...")
                 #send_magic_packet(str(list_pc[x]), ip_address='192.168.0.255', port=9)
-
-
-
