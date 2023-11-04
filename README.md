@@ -4,6 +4,7 @@ Simple Wake on Lan application
 ## Installation
 
 Only for windows at the moment. 
+
 Unzip the zip file into a folder. 
 Edit the **list.csv** file in the same directory as woler.exe and fill each row with the name and the mac address of the pc to wake up.
 
