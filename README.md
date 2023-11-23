@@ -3,9 +3,9 @@ Simple Wake on Lan application
 
 ## Installation
 
-Only for windows at the moment. 
+Only for windows at the moment.
 
-Unzip the zip file into a folder. 
+Unzip the zip file into a folder.
 Edit the **list.csv** file in the same directory as woler.exe and fill each row with the name and the mac address of the pc to wake up.
 
 For example:
@@ -20,6 +20,21 @@ Then double click on woler.exe and select type the pc number to wake up then typ
 
 ## For development
 
+Create a virtual environment
+
+    python3 -m venv myenv
+
+Activate the virtual environment
+
+On window powershell
+
+    ./myenv/Scripts/activate.ps1
+
+On linux
+
+    source myenv/bin/activate
+
 Install wakeonlan dependency
 
     pip install wakeonlan
+
