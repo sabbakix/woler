@@ -49,5 +49,7 @@ while True:
         for i, x in enumerate(list_pc):
             if(postazione==i):
                 wakePc(i,x,list_pc[x])
+                # come solo essere di nuove generazione di casini e non esser edi piu
                 #print(str(i)+" Starting  "+x+" ...")
                 #send_magic_packet(str(list_pc[x]), ip_address='192.168.0.255', port=9)
+        #print("Wake Up PC "+str(postazione))
