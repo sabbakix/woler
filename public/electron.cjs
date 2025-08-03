@@ -3,6 +3,7 @@ const path = require('path');
 const isDev = require('electron-is-dev');
 const fs = require('fs');
 const csv = require('csv-parser');
+const { wake } = require('wake_on_lan');
 
 function createWindow() {
   // Create the browser window
@@ -12,7 +13,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.cjs')
     },
     icon: path.join(__dirname, 'icon.png') // Optional: add an icon
   });
@@ -71,6 +72,20 @@ ipcMain.handle('read-csv', async () => {
     });
   } catch (error) {
     console.error('Error reading CSV:', error);
+    throw error;
+  }
+});
+
+ipcMain.handle('wake-pc', async (event, macAddress) => {
+  try {
+    await wake(macAddress, {
+      address: '192.168.0.255',
+      port: 9
+    });
+    console.log(`Magic packet sent to ${macAddress}`);
+    return { success: true };
+  } catch (error) {
+    console.error(`Error sending magic packet to ${macAddress}:`, error);
     throw error;
   }
 }); 

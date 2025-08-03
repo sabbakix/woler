@@ -10,8 +10,8 @@ import {
   Spinner,
   Icon
 } from '@blueprintjs/core';
-import { Power, Refresh, Play } from '@blueprintjs/icons';
-import { wake } from 'wake_on_lan';
+
+
 import '@blueprintjs/core/lib/css/blueprint.css';
 
 function App() {
@@ -29,18 +29,22 @@ function App() {
   // Function to load PC list from CSV
   const loadPcList = async () => {
     try {
-      // In Electron, we can use Node.js fs module
-      const fs = require('fs');
-      const csv = require('csv-parser');
-      
-      const results = [];
-      fs.createReadStream('list.csv')
-        .pipe(csv())
-        .on('data', (data) => results.push(data))
-        .on('end', () => {
-          setPcList(results);
-          setLoading(false);
-        });
+      // Check if we're in Electron environment
+      if (window.ipcRenderer) {
+        // Use Electron IPC to read CSV file
+        const results = await window.ipcRenderer.invoke('read-csv');
+        setPcList(results);
+        setLoading(false);
+      } else {
+        // Fallback for browser environment - use sample data
+        const sampleData = [
+          { name: 'Sample PC 1', mac: '00:11:22:33:44:55', ip: '192.168.1.100' },
+          { name: 'Sample PC 2', mac: 'AA:BB:CC:DD:EE:FF', ip: '192.168.1.101' }
+        ];
+        setPcList(sampleData);
+        setLoading(false);
+        setMessage('Using sample data. In Electron, this will load from list.csv');
+      }
     } catch (error) {
       console.error('Error loading PC list:', error);
       setMessage('Error loading PC list. Please check if list.csv exists.');
@@ -54,13 +58,13 @@ function App() {
     setMessage('');
     
     try {
-      // Send magic packet using wake_on_lan library
-      await wake(pc.mac, {
-        address: '192.168.0.255',
-        port: 9
-      });
-      
-      setMessage(`Magic packet sent to ${pc.name} (${pc.mac})`);
+      // Send magic packet using Electron IPC
+      if (window.ipcRenderer) {
+        await window.ipcRenderer.invoke('wake-pc', pc.mac);
+        setMessage(`Magic packet sent to ${pc.name} (${pc.mac})`);
+      } else {
+        setMessage(`Cannot wake PC in browser environment. Use Electron app.`);
+      }
     } catch (error) {
       setMessage(`Error waking up ${pc.name}: ${error.message}`);
     } finally {
@@ -72,19 +76,19 @@ function App() {
   const wakeAllPcs = async () => {
     setMessage('Waking up all PCs...');
     
-    for (const pc of pcList) {
-      try {
-        await wake(pc.mac, {
-          address: '192.168.0.255',
-          port: 9
-        });
-        console.log(`Sent magic packet to ${pc.name}`);
-      } catch (error) {
-        console.error(`Error waking up ${pc.name}:`, error);
+    if (window.ipcRenderer) {
+      for (const pc of pcList) {
+        try {
+          await window.ipcRenderer.invoke('wake-pc', pc.mac);
+          console.log(`Sent magic packet to ${pc.name}`);
+        } catch (error) {
+          console.error(`Error waking up ${pc.name}:`, error);
+        }
       }
+      setMessage('Magic packets sent to all PCs');
+    } else {
+      setMessage('Cannot wake PCs in browser environment. Use Electron app.');
     }
-    
-    setMessage('Magic packets sent to all PCs');
   };
 
   // Show loading spinner while loading PC list
@@ -102,7 +106,7 @@ function App() {
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: '30px' }}>
         <H3>
-          <Icon icon={Power} style={{ marginRight: '10px' }} />
+          <Icon icon="power" style={{ marginRight: '10px' }} />
           Wake-on-LAN Controller
         </H3>
         <Text>Manage and wake up your network computers</Text>
@@ -121,7 +125,7 @@ function App() {
       {/* Wake All button */}
       <Card style={{ marginBottom: '20px' }}>
         <Button
-          icon={Play}
+          icon="play"
           intent={Intent.PRIMARY}
           text="Wake All PCs"
           onClick={wakeAllPcs}
@@ -141,7 +145,7 @@ function App() {
                 {pc.ip && <Text>IP: {pc.ip}</Text>}
               </div>
               <Button
-                icon={Power}
+                icon="power"
                 intent={Intent.SUCCESS}
                 text="Wake Up"
                 loading={wakingPc === pc.name}
@@ -156,7 +160,7 @@ function App() {
       {/* Refresh button */}
       <div style={{ textAlign: 'center', marginTop: '20px' }}>
         <Button
-          icon={Refresh}
+          icon="refresh"
           text="Refresh PC List"
           onClick={loadPcList}
           minimal

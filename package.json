@@ -1,8 +1,9 @@
 {
   "name": "woler-gui",
   "version": "1.0.0",
+  "type": "module",
   "description": "Wake-on-LAN GUI with React and BlueprintJS",
-  "main": "public/electron.js",
+  "main": "public/electron.cjs",
   "homepage": "./",
   "scripts": {
     "dev": "vite",
@@ -20,8 +21,8 @@
     "wake_on_lan": "^1.0.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.7.0",
-    "vite": "^7.0.6",
+    "@vitejs/plugin-react": "^4.0.0",
+    "vite": "^5.0.0",
     "concurrently": "^8.0.0",
     "electron": "^37.2.5",
     "electron-builder": "^24.0.0",
