@@ -11,7 +11,7 @@ import {
   Icon
 } from '@blueprintjs/core';
 import { Power, Refresh, Play } from '@blueprintjs/icons';
-import { send_magic_packet } from 'wakeonlan';
+import { wake } from 'wake_on_lan';
 import '@blueprintjs/core/lib/css/blueprint.css';
 
 function App() {
@@ -54,9 +54,9 @@ function App() {
     setMessage('');
     
     try {
-      // Send magic packet using wakeonlan library
-      await send_magic_packet(pc.mac, {
-        ip_address: '192.168.0.255',
+      // Send magic packet using wake_on_lan library
+      await wake(pc.mac, {
+        address: '192.168.0.255',
         port: 9
       });
       
@@ -74,8 +74,8 @@ function App() {
     
     for (const pc of pcList) {
       try {
-        await send_magic_packet(pc.mac, {
-          ip_address: '192.168.0.255',
+        await wake(pc.mac, {
+          address: '192.168.0.255',
           port: 9
         });
         console.log(`Sent magic packet to ${pc.name}`);

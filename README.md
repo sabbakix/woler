@@ -1,6 +1,7 @@
 # Woler - Wake-on-LAN Tool
 
 A Wake-on-LAN tool with multiple interfaces:
+
 - Command-line interface (`woler.py`)
 - Tkinter GUI (`wolergui.py`)
 - Curses interface (`gui.py`)
@@ -16,6 +17,7 @@ A Wake-on-LAN tool with multiple interfaces:
 ## CSV Format
 
 Your `list.csv` file should have the following format:
+
 ```csv
 name,mac,ip
 PC1,00:11:22:33:44:55,192.168.1.100
@@ -25,16 +27,19 @@ PC2,AA:BB:CC:DD:EE:FF,192.168.1.101
 ## Installation & Usage
 
 ### Command Line Interface
+
 ```bash
 python woler.py
 ```
 
 ### Tkinter GUI
+
 ```bash
 python wolergui.py
 ```
 
 ### Curses Interface
+
 ```bash
 python gui.py
 ```
@@ -42,16 +47,19 @@ python gui.py
 ### Modern Electron GUI (NEW!)
 
 1. **Install Node.js dependencies:**
+
 ```bash
 npm install
 ```
 
 2. **Run in development mode:**
+
 ```bash
 npm run electron-dev
 ```
 
 3. **Build for production:**
+
 ```bash
 npm run electron-pack
 ```
@@ -59,10 +67,12 @@ npm run electron-pack
 ## Requirements
 
 ### Python Dependencies
+
 - wakeonlan==3.0.0
 - windows-curses-2.4.0 (Windows only)
 
 ### Node.js Dependencies (for Electron GUI)
+
 - React 18
 - BlueprintJS 5
 - Electron 25
@@ -93,3 +103,25 @@ woler/
     └── App.js       # Main React component
 ```
 
+How to Run:
+
+Install dependencies:
+
+    npm install
+
+Run in development mode:
+
+    npm run electron-dev
+
+Build for production:
+
+## UI Features:
+
+Header with power icon and title
+Success/Error messages with colored callouts
+Loading spinners while waking PCs
+Interactive cards for each PC with MAC/IP info
+Refresh button to reload the CSV file
+Professional BlueprintJS styling
+The app will automatically read your list.csv file and display all your PCs in a beautiful, modern interface. Each PC gets its own card with a "Wake Up" button, and there's a prominent "Wake All PCs" button at the top.
+Would you like me to help you install the dependencies and run it?
